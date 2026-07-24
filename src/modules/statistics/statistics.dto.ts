@@ -7,6 +7,7 @@ export class CreateStatisticDto {
   @ApiProperty() @IsString() @MinLength(1) label_en: string;
   @ApiProperty() @IsNumber() value: number;
   @ApiPropertyOptional() @IsOptional() @IsString() icon?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() suffix?: string;
   @ApiPropertyOptional() @IsOptional() @IsNumber() order?: number;
   @ApiPropertyOptional() @IsOptional() @IsBoolean() is_active?: boolean;
 }
@@ -17,6 +18,7 @@ export class UpdateStatisticDto {
   @ApiPropertyOptional() @IsOptional() @IsString() label_en?: string;
   @ApiPropertyOptional() @IsOptional() @IsNumber() value?: number;
   @ApiPropertyOptional() @IsOptional() @IsString() icon?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() suffix?: string;
   @ApiPropertyOptional() @IsOptional() @IsNumber() order?: number;
   @ApiPropertyOptional() @IsOptional() @IsBoolean() is_active?: boolean;
 }
