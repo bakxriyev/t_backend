@@ -5,10 +5,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { join } from 'path';
-
 import { getDatabaseConfig } from './database/database.providers';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
-
 import { AuthModule } from './modules/auth/auth.module';
 import { NewsModule } from './modules/news/news.module';
 import { AboutModule } from './modules/about/about.module';
@@ -63,7 +61,8 @@ import { FaqModule } from './modules/faq/faq.module';
           ttl: 60000,
           limit: 100,
         },
-      ],
+      ], 
+
     }),
     AuthModule,
     NewsModule,

@@ -56,6 +56,31 @@ export class Hero extends Model<Hero> {
   @Column({ type: DataType.BOOLEAN, defaultValue: true })
   declare is_active: boolean;
 
+  // === Text styling fields ===
+  @Column({ type: DataType.STRING(20), allowNull: true, defaultValue: '4.5rem' })
+  declare title_font_size: string;
+
+  @Column({ type: DataType.STRING(20), allowNull: true, defaultValue: '1.125rem' })
+  declare subtitle_font_size: string;
+
+  @Column({ type: DataType.STRING(20), allowNull: true, defaultValue: '1rem' })
+  declare description_font_size: string;
+
+  @Column({ type: DataType.STRING(10), allowNull: true, defaultValue: '700' })
+  declare title_font_weight: string;
+
+  @Column({ type: DataType.STRING(10), allowNull: true, defaultValue: '400' })
+  declare subtitle_font_weight: string;
+
+  @Column({ type: DataType.STRING(10), allowNull: true, defaultValue: '400' })
+  declare description_font_weight: string;
+
+  @Column({ type: DataType.STRING(20), allowNull: true, defaultValue: 'center' })
+  declare text_align: string;
+
+  @Column({ type: DataType.STRING(20), allowNull: true, defaultValue: '100%' })
+  declare max_width: string;
+
   @CreatedAt
   declare createdAt: Date;
 

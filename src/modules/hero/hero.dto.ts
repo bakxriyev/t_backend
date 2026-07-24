@@ -19,6 +19,15 @@ export class CreateHeroDto {
   @ApiPropertyOptional() @IsOptional() @IsString() video_url?: string;
   @ApiPropertyOptional() @IsOptional() @IsNumber() order?: number;
   @ApiPropertyOptional() @IsOptional() @IsBoolean() is_active?: boolean;
+  // --- Text styling ---
+  @ApiPropertyOptional() @IsOptional() @IsString() title_font_size?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() subtitle_font_size?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() description_font_size?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() title_font_weight?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() subtitle_font_weight?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() description_font_weight?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() text_align?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() max_width?: string;
 }
 
 export class UpdateHeroDto {
@@ -39,6 +48,15 @@ export class UpdateHeroDto {
   @ApiPropertyOptional() @IsOptional() @IsString() video_url?: string;
   @ApiPropertyOptional() @IsOptional() @IsNumber() order?: number;
   @ApiPropertyOptional() @IsOptional() @IsBoolean() is_active?: boolean;
+  // --- Text styling ---
+  @ApiPropertyOptional() @IsOptional() @IsString() title_font_size?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() subtitle_font_size?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() description_font_size?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() title_font_weight?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() subtitle_font_weight?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() description_font_weight?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() text_align?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() max_width?: string;
 }
 
 export class HeroQueryDto {
