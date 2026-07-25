@@ -25,11 +25,20 @@ async function bootstrap() {
   app.use(morgan('combined'));
 
   app.enableCors({
-    origin: [
-      configService.get<string>('FRONTEND_URL', 'http://localhost:3000'),
-      configService.get<string>('ADMIN_URL', 'http://localhost:3002'),
-      'http://localhost:3001',
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        configService.get<string>('FRONTEND_URL', 'http://localhost:3000'),
+        configService.get<string>('ADMIN_URL', 'http://localhost:3002'),
+        'http://localhost:3001',
+        'https://t-admin-azure.vercel.app',
+        'https://www.tashkentlawschool.uz',
+      ];
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.ilmify-edu.uz')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'), false);
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
