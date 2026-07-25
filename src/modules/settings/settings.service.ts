@@ -32,6 +32,8 @@ export class SettingsService {
     const updateData: any = { ...dto };
     if (logo) updateData.logo = logo;
     if (favicon) updateData.favicon = favicon;
+    if (dto.latitude) updateData.latitude = parseFloat(dto.latitude);
+    if (dto.longitude) updateData.longitude = parseFloat(dto.longitude);
     await settings.update(updateData);
     return settings;
   }

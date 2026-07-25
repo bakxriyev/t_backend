@@ -24,6 +24,9 @@ export class UpdateSettingsDto {
   @ApiPropertyOptional() @IsOptional() @IsString() seo_keywords_uz?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() seo_keywords_ru?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() seo_keywords_en?: string;
+
+  @ApiPropertyOptional() @IsOptional() @IsString() latitude?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() longitude?: string;
 }
 
 export class SettingQueryDto {

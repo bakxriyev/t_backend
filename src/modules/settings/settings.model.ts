@@ -44,6 +44,12 @@ export class Setting extends Model<Setting> {
   @Column({ type: DataType.STRING(255), allowNull: true })
   declare working_hours_en: string;
 
+  @Column({ type: DataType.FLOAT, allowNull: true })
+  declare latitude: number;
+
+  @Column({ type: DataType.FLOAT, allowNull: true })
+  declare longitude: number;
+
   @Column({ type: DataType.STRING(500), allowNull: true })
   declare seo_title_uz: string;
 
