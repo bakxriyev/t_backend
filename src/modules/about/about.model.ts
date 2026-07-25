@@ -35,8 +35,11 @@ declare id: number;
   @Column({ type: DataType.STRING(500), allowNull: true })
   declare image: string;
 
-  @Column({ type: DataType.STRING(500), allowNull: true })
-  declare video: string;
+  @Column({ type: DataType.TEXT, allowNull: true })
+  declare images: string;
+
+  @Column({ type: DataType.TEXT, allowNull: true })
+  declare videos: string;
 
   @CreatedAt
 declare createdAt: Date;

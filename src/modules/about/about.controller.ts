@@ -23,8 +23,8 @@ export class AboutController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-    { name: 'video', maxCount: 1 },
+    { name: 'images', maxCount: 20 },
+    { name: 'videos', maxCount: 10 },
   ], multerConfig))
   @ApiBearerAuth('JWT-auth')
   @HttpCode(HttpStatus.CREATED)
@@ -32,18 +32,18 @@ export class AboutController {
   @ApiOperation({ summary: 'Create about information' })
   async create(
     @Body() dto: CreateAboutDto,
-    @UploadedFiles() files: { image?: Express.Multer.File[]; video?: Express.Multer.File[] },
+    @UploadedFiles() files: { images?: Express.Multer.File[]; videos?: Express.Multer.File[] },
   ) {
-    const image = files?.image?.[0] ? `/uploads/${files.image[0].filename}` : undefined;
-    const video = files?.video?.[0] ? `/uploads/${files.video[0].filename}` : undefined;
-    return this.aboutService.create(dto, image, video);
+    const imagePaths = files?.images?.map(f => `/uploads/${f.filename}`) || [];
+    const videoPaths = files?.videos?.map(f => `/uploads/${f.filename}`) || [];
+    return this.aboutService.create(dto, imagePaths, videoPaths);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-    { name: 'video', maxCount: 1 },
+    { name: 'images', maxCount: 20 },
+    { name: 'videos', maxCount: 10 },
   ], multerConfig))
   @ApiBearerAuth('JWT-auth')
   @ApiConsumes('multipart/form-data')
@@ -51,13 +51,26 @@ export class AboutController {
   async update(
     @Param('id') id: number,
     @Body() dto: UpdateAboutDto,
-    @UploadedFiles() files: { image?: Express.Multer.File[]; video?: Express.Multer.File[] },
+    @UploadedFiles() files: { images?: Express.Multer.File[]; videos?: Express.Multer.File[] },
     @Req() req: Request,
   ) {
-    const image = files?.image?.[0] ? `/uploads/${files.image[0].filename}` : undefined;
-    const video = files?.video?.[0] ? `/uploads/${files.video[0].filename}` : undefined;
-    const removeImage = req.body?._removeImage === '1';
-    const removeVideo = req.body?._removeVideo === '1';
-    return this.aboutService.update(id, dto, image, video, removeImage, removeVideo);
+    const existingImages = req.body?.existingImages || '[]';
+    const existingVideos = req.body?.existingVideos || '[]';
+    let parsedImages: string[];
+    let parsedVideos: string[];
+    try {
+      parsedImages = JSON.parse(existingImages);
+    } catch { parsedImages = []; }
+    try {
+      parsedVideos = JSON.parse(existingVideos);
+    } catch { parsedVideos = []; }
+
+    const newImagePaths = files?.images?.map(f => `/uploads/${f.filename}`) || [];
+    const newVideoPaths = files?.videos?.map(f => `/uploads/${f.filename}`) || [];
+
+    const allImages = [...parsedImages, ...newImagePaths];
+    const allVideos = [...parsedVideos, ...newVideoPaths];
+
+    return this.aboutService.update(id, dto, allImages, allVideos);
   }
 }

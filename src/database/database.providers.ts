@@ -57,6 +57,6 @@ export const getDatabaseConfig = (
     FaqItem,
   ],
   autoLoadModels: true,
-  synchronize: true,
+  synchronize: { alter: { drop: false } },
   logging: false,
 });
