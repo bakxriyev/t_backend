@@ -127,14 +127,56 @@ export class VisitsService {
   async updateLocation(id: number, dto: UpdateVisitLocationDto) {
     const visit = await this.visitModel.findByPk(id);
     if (!visit) throw new NotFoundException('Visit not found');
-    await visit.update({
-      country: dto.country ?? visit.country,
-      region: dto.region ?? visit.region,
-      city: dto.city ?? visit.city,
+
+    const updateData: any = {
       latitude: dto.latitude ?? visit.latitude,
       longitude: dto.longitude ?? visit.longitude,
-    });
+    };
+
+    if (dto.country !== undefined) updateData.country = dto.country;
+    if (dto.region !== undefined) updateData.region = dto.region;
+    if (dto.city !== undefined) updateData.city = dto.city;
+
+    const hasLatLng = !!(dto.latitude || dto.longitude);
+    const hasExplicitLocation = !!(dto.country || dto.region || dto.city);
+    if (hasLatLng && !hasExplicitLocation) {
+      const lat = dto.latitude || visit.latitude;
+      const lng = dto.longitude || visit.longitude;
+      if (lat && lng) {
+        try {
+          const geo = await this.reverseGeocode(lat, lng);
+          if (geo) {
+            if (geo.country) updateData.country = geo.country;
+            if (geo.region) updateData.region = geo.region;
+            if (geo.city) updateData.city = geo.city;
+          }
+        } catch {
+          // geocoding failure — lat/lng already saved
+        }
+      }
+    }
+
+    await visit.update(updateData);
     return visit;
+  }
+
+  private async reverseGeocode(lat: string, lng: string): Promise<{ country: string; region: string; city: string } | null> {
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lng)}&format=json&accept-language=uz`,
+        { headers: { 'User-Agent': 'TashkentLawSchool/1.0' } },
+      );
+      if (!res.ok) return null;
+      const data: any = await res.json();
+      const addr = data.address || {};
+      return {
+        country: addr.country || null,
+        region: addr.state || addr.region || null,
+        city: addr.city || addr.town || addr.village || addr.municipality || null,
+      };
+    } catch {
+      return null;
+    }
   }
 
   async getVisitsList(query: VisitsListQueryDto) {
