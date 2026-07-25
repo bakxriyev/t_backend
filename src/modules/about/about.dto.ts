@@ -12,6 +12,7 @@ export class CreateAboutDto {
   @ApiPropertyOptional() @IsOptional() @IsString() vision_ru?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() vision_en?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() image?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() video?: string;
 }
 
 export class UpdateAboutDto {
@@ -25,4 +26,5 @@ export class UpdateAboutDto {
   @ApiPropertyOptional() @IsOptional() @IsString() vision_ru?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() vision_en?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() image?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() video?: string;
 }

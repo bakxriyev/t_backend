@@ -19,15 +19,18 @@ export class AboutService {
     return about;
   }
 
-  async create(dto: CreateAboutDto, image?: string) {
-    return this.aboutModel.create({ ...dto, image } as any);
+  async create(dto: CreateAboutDto, image?: string, video?: string) {
+    return this.aboutModel.create({ ...dto, image, video } as any);
   }
 
-  async update(id: number, dto: UpdateAboutDto, image?: string) {
+  async update(id: number, dto: UpdateAboutDto, image?: string, video?: string, removeImage?: boolean, removeVideo?: boolean) {
     const about = await this.aboutModel.findByPk(id);
     if (!about) throw new NotFoundException('About not found');
     const updateData: any = { ...dto };
     if (image) updateData.image = image;
+    else if (removeImage) updateData.image = null;
+    if (video) updateData.video = video;
+    else if (removeVideo) updateData.video = null;
     await about.update(updateData);
     return about;
   }

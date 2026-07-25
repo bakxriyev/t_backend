@@ -35,6 +35,9 @@ declare id: number;
   @Column({ type: DataType.STRING(500), allowNull: true })
   declare image: string;
 
+  @Column({ type: DataType.STRING(500), allowNull: true })
+  declare video: string;
+
   @CreatedAt
 declare createdAt: Date;
 
