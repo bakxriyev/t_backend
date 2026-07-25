@@ -33,7 +33,7 @@ async function bootstrap() {
         'https://t-admin-azure.vercel.app',
         'https://www.tashkentlawschool.uz',
       ];
-      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.ilmify-edu.uz')) {
+      if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.ilmify-edu.uz') || origin.endsWith('.tashkentlawschool.uz')) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'), false);
