@@ -13,27 +13,16 @@ async function migrate() {
     await client.connect();
     console.log('Connected to PostgreSQL');
 
-    const checkSql = `
-      SELECT column_name 
-      FROM information_schema.columns 
-      WHERE table_name = 'results' AND column_name = 'photos'
-    `;
-    const res = await client.query(checkSql);
-
-    if (res.rows.length === 0) {
-      await client.query(`
-        ALTER TABLE results 
-        ADD COLUMN photos TEXT;
-      `);
-      console.log('✓ photos column added to results table');
-    } else {
-      console.log('○ photos column already exists');
-    }
+    await client.query(`
+      ALTER TABLE results 
+      ALTER COLUMN photo TYPE TEXT;
+    `);
+    console.log('✓ photo column type changed to TEXT');
 
     await client.end();
     console.log('Migration complete');
   } catch (err) {
-    console.error('Migration error:', err);
+    console.error('Migration error:', err.message);
     process.exit(1);
   }
 }
