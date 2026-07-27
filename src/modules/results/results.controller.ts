@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards, UseInterceptors, UploadedFile, HttpCode, HttpStatus } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards, UseInterceptors, UploadedFiles, HttpCode, HttpStatus } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { ResultsService } from './results.service';
 import { CreateResultDto, UpdateResultDto, ResultQueryDto } from './results.dto';
@@ -28,25 +28,25 @@ export class ResultsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('photo', multerConfig))
+  @UseInterceptors(FilesInterceptor('photo', 50, multerConfig))
   @ApiBearerAuth('JWT-auth')
   @HttpCode(HttpStatus.CREATED)
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Create result' })
-  async create(@Body() dto: CreateResultDto, @UploadedFile() file?: Express.Multer.File) {
-    const photo = file ? `/uploads/${file.filename}` : undefined;
-    return this.resultsService.create(dto, photo);
+  @ApiOperation({ summary: 'Create result (supports multiple photos)' })
+  async create(@Body() dto: CreateResultDto, @UploadedFiles() files?: Express.Multer.File[]) {
+    const photoUrls = files?.map(f => `/uploads/${f.filename}`) || [];
+    return this.resultsService.create(dto, photoUrls);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('photo', multerConfig))
+  @UseInterceptors(FilesInterceptor('photo', 50, multerConfig))
   @ApiBearerAuth('JWT-auth')
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Update result' })
-  async update(@Param('id') id: number, @Body() dto: UpdateResultDto, @UploadedFile() file?: Express.Multer.File) {
-    const photo = file ? `/uploads/${file.filename}` : undefined;
-    return this.resultsService.update(id, dto, photo);
+  @ApiOperation({ summary: 'Update result (supports multiple photos)' })
+  async update(@Param('id') id: number, @Body() dto: UpdateResultDto, @UploadedFiles() files?: Express.Multer.File[]) {
+    const photoUrls = files?.map(f => `/uploads/${f.filename}`) || [];
+    return this.resultsService.update(id, dto, photoUrls);
   }
 
   @Delete(':id')

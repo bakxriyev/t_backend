@@ -38,6 +38,9 @@ export class Result extends Model<Result> {
   @Column({ type: DataType.STRING(500), allowNull: true })
   declare photo: string;
 
+  @Column({ type: DataType.TEXT, allowNull: true })
+  declare photos: string;
+
   @Column({ type: DataType.BOOLEAN, defaultValue: true })
   declare is_active: boolean;
 
