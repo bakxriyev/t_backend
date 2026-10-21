@@ -31,6 +31,7 @@ async function bootstrap() {
         configService.get<string>('ADMIN_URL', 'http://localhost:3002'),
         'http://localhost:3001',
         'https://t-admin-azure.vercel.app',
+        'https://tashkentlaw.itzonee.uz',
         'https://www.tashkentlawschool.uz',
       ];
       if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.ilmify-edu.uz') || origin.endsWith('.tashkentlawschool.uz')) {
