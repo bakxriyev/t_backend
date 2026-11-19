@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { SequelizeExceptionFilter } from './common/filters/sequelize-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -30,6 +31,7 @@ async function bootstrap() {
         configService.get<string>('FRONTEND_URL', 'http://localhost:3000'),
         configService.get<string>('ADMIN_URL', 'http://localhost:3002'),
         'http://localhost:3001',
+        'http://localhost:3005',
         'https://t-admin-azure.vercel.app',
         'https://tashkentlaw.itzonee.uz',
         'https://www.tashkentlawschool.uz',
@@ -48,6 +50,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads' });
+
+  app.useGlobalFilters(new SequelizeExceptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({

@@ -20,7 +20,7 @@ export class Statistic extends Model<Statistic> {
   @Column({ type: DataType.STRING(255), allowNull: true })
   declare icon: string;
 
-  @Column({ type: DataType.STRING(10), allowNull: true, defaultValue: '+' })
+  @Column({ type: DataType.STRING(50), allowNull: true, defaultValue: '+' })
   declare suffix: string;
 
   @Column({ type: DataType.INTEGER, defaultValue: 0 })

@@ -1,8 +1,8 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsOptional, MaxLength } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateTimelineItemDto {
-  @ApiProperty() @IsString() year: string;
+  @ApiProperty() @IsString() @MaxLength(50) year: string;
   @ApiProperty() @IsString() title_uz: string;
   @ApiProperty() @IsString() title_ru: string;
   @ApiProperty() @IsString() title_en: string;
@@ -13,7 +13,7 @@ export class CreateTimelineItemDto {
 }
 
 export class UpdateTimelineItemDto {
-  @ApiPropertyOptional() @IsOptional() @IsString() year?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(50) year?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() title_uz?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() title_ru?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() title_en?: string;

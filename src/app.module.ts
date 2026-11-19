@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { AppThrottlerGuard } from './common/guards/app-throttler.guard';
+import { SchemaFixesService } from './database/schema-fixes.service';
 import { APP_GUARD } from '@nestjs/core';
 import { join } from 'path';
 import { getDatabaseConfig } from './database/database.providers';
@@ -91,9 +93,10 @@ import { FaqModule } from './modules/faq/faq.module';
     FaqModule,
   ],
   providers: [
+    SchemaFixesService,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: AppThrottlerGuard,
     },
     {
       provide: APP_GUARD,

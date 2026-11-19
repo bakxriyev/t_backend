@@ -5,7 +5,7 @@ export class TimelineItem extends Model<TimelineItem> {
   @Column({ type: DataType.INTEGER, autoIncrement: true, primaryKey: true })
   declare id: number;
 
-  @Column({ type: DataType.STRING(10), allowNull: false })
+  @Column({ type: DataType.STRING(50), allowNull: false })
   declare year: string;
 
   @Column({ type: DataType.STRING(500), allowNull: false })
